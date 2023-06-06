@@ -398,9 +398,9 @@ class TerrainTile(object):
                         f, extensionLength, TerrainTile.WaterMask['xy']):
                     self.watermask.append(row)
 
-        data = f.read(1)
-        if data:
-            raise Exception('Should have reached end of file, but didn\'t')
+        # data = f.read(1)
+        # if data:
+        #     raise Exception('Should have reached end of file, but didn\'t')
 
     @staticmethod
     def _iterUnpackAndDecodeVertices(f, vertexCount, structType):
@@ -521,6 +521,34 @@ class TerrainTile(object):
         """
         if os.path.isfile(filePath):
             raise IOError('File %s already exists' % filePath)
+
+        if not gzipped:
+            with open(filePath, 'wb') as f:
+                self._writeTo(f)
+        else:
+            with gzip.open(filePath, 'wb') as f:
+                self._writeTo(f)
+        
+
+    def toOurFile(self, filePath, gzipped=False):
+        """
+        
+        A method to write the terrain tile data to a physical file.
+        Modified to overwrite the file if it exists.
+
+        Argument:
+
+        ``filePath``
+
+            An absolute or relative path to write the terrain tile. (Required)
+
+        ``gzipped``
+
+            Indicate if the content should be gzipped. Default is ``False``.
+        """
+        if os.path.isfile(filePath):
+            with open(filePath, 'wb') as f:
+                self._writeTo(f)
 
         if not gzipped:
             with open(filePath, 'wb') as f:
