@@ -546,9 +546,9 @@ class TerrainTile(object):
 
             Indicate if the content should be gzipped. Default is ``False``.
         """
-        if os.path.isfile(filePath):
-            with open(filePath, 'wb') as f:
-                self._writeTo(f)
+        # if os.path.isfile(filePath):
+        #     with open(filePath, 'wb') as f:
+        #         self._writeTo(f)
 
         if not gzipped:
             with open(filePath, 'wb') as f:
